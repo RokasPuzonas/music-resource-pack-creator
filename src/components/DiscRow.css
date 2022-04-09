@@ -1,0 +1,16 @@
+.disc-row {
+	display: flex;
+  align-items: center;
+}
+
+.disc-row__icon {
+	width: 2.5em;
+	height: 2.5em;
+
+	/* IE, only works on <img> tags */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* Firefox */
+  image-rendering: crisp-edges;
+  /* Chromium + Safari */
+  image-rendering: pixelated;
+}
