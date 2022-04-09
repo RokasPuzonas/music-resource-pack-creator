@@ -1,12 +1,13 @@
 import DiscTooltip from "./DiscTooltip"
-import { selectDiscs, useAppSelector } from "../store"
+import { selectDiscs, useAppDispatch, useAppSelector } from "../store"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro"
 import ReactTooltip from "react-tooltip"
 import EditNameModal from "./EditNameModal"
+import { setDescription, setTitle } from "../store/discs"
+import { useState } from "react"
 
 import "./DiscRow.css"
-import { useState } from "react"
 
 interface DiscRowProps {
 	discId: number
@@ -18,9 +19,15 @@ function DiscRow({ discId }: DiscRowProps) {
 
 	const [showEditName, setShowEditName] = useState(false);
 
+	const dispatch = useAppDispatch()
+	function onReset() {
+		dispatch(setTitle({ id: discId, title: "" }))
+		dispatch(setDescription({ id: discId, description: "" }))
+	}
+
 	return (
 		<div className="disc-row">
-			<button data-tip="Reset">
+			<button data-tip="Reset" onClick={onReset}>
 				<FontAwesomeIcon icon={solid("arrow-rotate-right")} />
 			</button>
 			<button data-tip="Edit name" onClick={() => setShowEditName(true)}>
