@@ -8,6 +8,7 @@ import { setDescription, setTitle } from "../store/discs"
 import { useState } from "react"
 
 import "./DiscRow.css"
+import UploadAudioModal from "./UploadAudioModal"
 
 interface DiscRowProps {
 	discId: number
@@ -18,6 +19,7 @@ function DiscRow({ discId }: DiscRowProps) {
 	const disc = discs.discs[discId]
 
 	const [showEditName, setShowEditName] = useState(false);
+	const [showUploadAudio, setShowUploadAudio] = useState(false);
 
 	const dispatch = useAppDispatch()
 	function onReset() {
@@ -33,7 +35,7 @@ function DiscRow({ discId }: DiscRowProps) {
 			<button data-tip="Edit name" onClick={() => setShowEditName(true)}>
 				<FontAwesomeIcon icon={solid("pen")} />
 			</button>
-			<button data-tip="Upload new audio">
+			<button data-tip="Upload new audio" onClick={() => setShowUploadAudio(true)}>
 				<FontAwesomeIcon icon={solid("file-audio")} />
 			</button>
 			<div className="disc-preview">
@@ -47,6 +49,11 @@ function DiscRow({ discId }: DiscRowProps) {
 			<EditNameModal
 				show={showEditName}
 				onClose={() => setShowEditName(false)}
+				discId={discId}
+			/>
+			<UploadAudioModal
+				show={showUploadAudio}
+				onClose={() => setShowUploadAudio(false)}
 				discId={discId}
 			/>
 		</div>

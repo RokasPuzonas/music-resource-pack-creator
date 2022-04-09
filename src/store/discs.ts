@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 export interface Disc {
 	title?: string
 	description?: string
+	audioUrl?: string
 	defaultTitle: string
 	defaultDescription: string
 	icon: string
@@ -86,10 +87,14 @@ export const discsSlice = createSlice({
 		setDescription: (state, action: PayloadAction<{ id: number, description: string }>) => {
 			const { id, description } = action.payload;
 			state.discs[id].description = description
+		},
+		setAudioUrl: (state, action: PayloadAction<{ id: number, audioUrl: string }>) => {
+			const { id, audioUrl } = action.payload;
+			state.discs[id].audioUrl = audioUrl
 		}
   }
 })
 
-export const { setTitle, setDescription } = discsSlice.actions
+export const { setTitle, setDescription, setAudioUrl } = discsSlice.actions
 
 export default discsSlice.reducer
