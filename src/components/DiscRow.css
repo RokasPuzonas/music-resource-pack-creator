@@ -1,11 +1,16 @@
 .disc-row {
 	display: flex;
   align-items: center;
+	margin-top: 1rem;
+}
+
+.disc-row > button {
+	font-size: 1.25rem;
 }
 
 .disc-row__icon {
-	width: 2.5em;
-	height: 2.5em;
+	width: 1.5em;
+	height: 1.5em;
 
 	/* IE, only works on <img> tags */
   -ms-interpolation-mode: nearest-neighbor;
@@ -13,4 +18,10 @@
   image-rendering: crisp-edges;
   /* Chromium + Safari */
   image-rendering: pixelated;
+}
+
+.disc-preview {
+	display: flex;
+	flex: 1 0 auto;
+  align-items: center;
 }
