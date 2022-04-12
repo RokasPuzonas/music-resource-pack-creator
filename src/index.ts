@@ -163,9 +163,16 @@ function addCreateRoute(server: hapi.Server) {
 }
 
 async function main() {
+	let host = undefined
+	let port = process.env.PORT || 3000
+	if (process.env.NODE_ENV == "development") {
+		host = "localhost"
+		port = 3001
+	}
+
 	const server = hapi.server({
-		port: process.env.PORT || 3000,
-		host: 'localhost',
+		port,
+		host,
 		routes: {
 			cors: true
 		}
@@ -173,6 +180,18 @@ async function main() {
 
 	addGetTitleRoute(server)
 	addCreateRoute(server)
+
+	await server.register(require('@hapi/inert'))
+
+	server.route({
+		method: "GET",
+		path: "/{param*}",
+		handler: {
+			directory: {
+				path: "client/build"
+			}
+		}
+	})
 
 	await server.start()
 	console.log("Server running on %s", server.info.uri)

@@ -6,8 +6,8 @@
 		"esModuleInterop": true,
 		"downlevelIteration": true,
 		"experimentalDecorators": true,
-		"baseUrl": "src",
-		"outDir": "dist",
+		"baseUrl": "/src",
+		"outDir": "/dist",
 		"rootDirs": ["src"],
 		"paths": {
 			"~/*": ["*"]

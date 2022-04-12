@@ -1,6 +1,4 @@
 
-const URL = "http://localhost:3001"
-
 export interface Disc {
 	title?: string
 	description?: string
@@ -13,7 +11,7 @@ export interface CreatePackPayload {
 }
 
 export async function getTitle(url: string): Promise<string | undefined> {
-	const res = await fetch(`${URL}/get-title`, {
+	const res = await fetch(`/get-title`, {
 		method: "POST",
 		body: url,
 	})
@@ -25,7 +23,7 @@ export async function getTitle(url: string): Promise<string | undefined> {
 }
 
 export async function createPack(info: CreatePackPayload) {
-	const res = await fetch(`${URL}/create`, {
+	const res = await fetch(`/create`, {
 		method: "POST",
 		mode: "cors",
 		headers: { "Content-Type" : "application/json" },
@@ -35,7 +33,6 @@ export async function createPack(info: CreatePackPayload) {
 	if (res.status == 200) {
 		return await res.blob()
 	} else {
-		console.log(res)
 		return undefined
 	}
 }
