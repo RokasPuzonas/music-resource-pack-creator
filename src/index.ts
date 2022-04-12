@@ -3,7 +3,7 @@ import ytdl from "ytdl-core"
 import Joi from "joi"
 import JSZip from "jszip"
 import ffmpeg from "fluent-ffmpeg"
-import { createWriteStream, readFileSync } from "fs"
+import { readFileSync } from "fs"
 import temp from "temp"
 
 const availableDiscs = [
@@ -13,7 +13,7 @@ const availableDiscs = [
 interface Disc {
 	title?: string
 	description?: string
-	youtubeUrl: string
+	youtubeUrl?: string
 }
 
 interface CreatePackPayload {
@@ -73,7 +73,7 @@ function addCreateRoute(server: hapi.Server) {
 	const discValidator = Joi.object<Disc>({
 		title: Joi.string().optional(),
 		description: Joi.string().optional(),
-		youtubeUrl: Joi.string().required(),
+		youtubeUrl: Joi.string().optional(),
 	}).optional()
 
 	const discsValidators: Record<string, Joi.ObjectSchema<Disc>> = {}
@@ -93,6 +93,7 @@ function addCreateRoute(server: hapi.Server) {
 			validate: { payload: payloadValidator }
 		},
 		handler: async (req, h) => {
+			console.log("CREATE")
 			const payload = req.payload as CreatePackPayload
 
 			const zip = JSZip();
@@ -117,7 +118,7 @@ function addCreateRoute(server: hapi.Server) {
 					audioStreams.push(new Promise(async (resolve, reject) => {
 						const tempFile = temp.path()
 						try {
-							await dowloadYoutubeAudio(url, tempFile)
+							await dowloadYoutubeAudio(url as string, tempFile)
 						} catch (e) {
 							console.error(e)
 							reject(e)
@@ -163,8 +164,11 @@ function addCreateRoute(server: hapi.Server) {
 
 async function main() {
 	const server = hapi.server({
-		port: 3000,
+		port: process.env.PORT || 3000,
 		host: 'localhost',
+		routes: {
+			cors: true
+		}
 	})
 
 	addGetTitleRoute(server)

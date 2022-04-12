@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro"
 import ReactTooltip from "react-tooltip"
 import EditNameModal from "./EditNameModal"
-import { setDescription, setTitle } from "../store/discs"
+import { setDescription, setTitle, setYoutubeUrl } from "../store/discs"
 import { useState } from "react"
 
 import "./DiscRow.css"
@@ -23,8 +23,9 @@ function DiscRow({ discId }: DiscRowProps) {
 
 	const dispatch = useAppDispatch()
 	function onReset() {
-		dispatch(setTitle({ id: discId, title: "" }))
-		dispatch(setDescription({ id: discId, description: "" }))
+		dispatch(setTitle({ id: discId, title: undefined }))
+		dispatch(setDescription({ id: discId, description: undefined }))
+		dispatch(setYoutubeUrl({ id: discId, youtubeUrl: undefined }))
 	}
 
 	return (

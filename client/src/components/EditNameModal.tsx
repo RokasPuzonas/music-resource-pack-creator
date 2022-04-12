@@ -16,17 +16,19 @@ function EditNameModal({ discId, show, onClose }: EditNameModalProps) {
 
 	const dispatch = useAppDispatch()
 	function setInputTitle(e: React.ChangeEvent<HTMLInputElement>) {
-		dispatch(setTitle({
-			id: discId,
-			title: e.target.value
-		}))
+		if (e.target.value.length == 0) {
+			dispatch(setTitle({ id: discId, title: undefined }))
+		} else {
+			dispatch(setTitle({ id: discId, title: e.target.value }))
+		}
 	}
 
 	function setInputDescription(e: React.ChangeEvent<HTMLInputElement>) {
-		dispatch(setDescription({
-			id: discId,
-			description: e.target.value
-		}))
+		if (e.target.value.length == 0) {
+			dispatch(setDescription({ id: discId, description: undefined }))
+		} else {
+			dispatch(setDescription({ id: discId, description: e.target.value }))
+		}
 	}
 
 	return <Modal show={show} onClose={onClose}>
