@@ -6,6 +6,8 @@ import ffmpeg from "fluent-ffmpeg"
 import { readFileSync } from "fs"
 import temp from "temp"
 
+ffmpeg.setFfmpegPath(require("ffmpeg-static"))
+
 const availableDiscs = [
 	"11", "13", "blocks", "cat", "chirp", "far", "mall", "mellohi", "otherside", "pigstep", "stal", "strad", "wait", "ward"
 ]
@@ -93,7 +95,6 @@ function addCreateRoute(server: hapi.Server) {
 			validate: { payload: payloadValidator }
 		},
 		handler: async (req, h) => {
-			console.log("CREATE")
 			const payload = req.payload as CreatePackPayload
 
 			const zip = JSZip();

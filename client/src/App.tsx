@@ -5,11 +5,14 @@ import { selectDiscs, useAppSelector } from "./store"
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import ResourcePackCustomizer from './components/ResourcePackCustomizer';
 import { CreatePackPayload, createPack, Disc } from './api';
+import LoadingOverlay from './components/LoadingOverlay';
 
-// TODO: Add waiting icon while creation is taking place
+// TODO: Add error popups when something goes wrong
 
 function App() {
 	const [description, setDescription] = useState("")
+
+	let [showLoading, setShowLoading] = useState(false);
 
 	const store = useAppSelector(selectDiscs)
 	async function onClick() {
@@ -35,10 +38,16 @@ function App() {
 			info.description = description
 		}
 
-		const blob = await createPack(info)
-		if (blob) {
-			downloadBlob(blob, "music-pack.zip")
+		setShowLoading(true)
+		try {
+			const blob = await createPack(info)
+			if (blob) {
+				downloadBlob(blob, "music-pack.zip")
+			}
+		} catch (e) {
+			console.log(e)
 		}
+		setShowLoading(false)
 	}
 
 	function downloadBlob(blob: Blob, filename: string) {
@@ -69,6 +78,7 @@ function App() {
 			<footer>
 				Made By Rokas Puzonas
 			</footer>
+			<LoadingOverlay show={showLoading} />
     </div>
   );
 }
